@@ -164,11 +164,11 @@ class lena:
                 self.nat_gateway_id)
             )
 
-            print self.ec2_client.create_route(
+            self.info(self.ec2_client.create_route(
                 RouteTableId=updateroute['RouteTableId'],
                 DestinationCidrBlock=updateroute['DestinationCidrBlock'],
                 NatGatewayId=self.nat_gateway_id
-            )
+            ))
 
             self.info("Route {} --> {} updated to {} --> {} for {}".format(
                 updateroute['InstanceId'],
