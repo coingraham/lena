@@ -201,7 +201,8 @@ class lena:
                 Tags=[
                     {
                         'Key': 'Lena',
-                        'Value': 'RouteTables Migrated from nat instance: {} to nat gateway: {}, terminate as necessary'.format(
+                        'Value': 'RouteTables Migrated from nat instance: {} to nat gateway: {},' \
+                                 ' terminate as necessary'.format(
                             self.nat_eip_alloc_id, self.nat_gateway_id
                         )
                     }
