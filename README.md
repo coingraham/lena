@@ -14,7 +14,8 @@ Here's what the options in the template look like
 
 ## What it creates
 The CFT will create a lambda with a lambda assumer role and the following policies attached:
-'''
+
+'''JSON
 "Policies": [
     {
         "PolicyName": "root",
