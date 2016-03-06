@@ -15,46 +15,46 @@ Here's what the options in the template look like
 ## What it creates
 The CFT will create a lambda with a lambda assumer role and the following policies attached:
 
-'''JSON
-"Policies": [
-    {
-        "PolicyName": "root",
-        "PolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Action": [
-                        "logs:CreateLogGroup",
-                        "logs:CreateLogStream",
-                        "logs:PutLogEvents"
-                    ],
-                    "Resource": "arn:aws:logs:*:*:*"
-                },
-                {
-                    "Sid": "LenaMigrationPolicy",
-                    "Effect": "Allow",
-                    "Action": [
-                        "ec2:AllocateAddress",
-                        "ec2:CreateNatGateway",
-                        "ec2:CreateRoute",
-                        "ec2:CreateTags",
-                        "ec2:DeleteRoute",
-                        "ec2:DescribeAddresses",
-                        "ec2:DescribeInstanceAttribute",
-                        "ec2:DescribeInstances",
-                        "ec2:DescribeNatGateways",
-                        "ec2:DescribeRouteTables",
-                        "ec2:DisassociateAddress"
-                    ],
-                    "Resource": [
-                        "*"
-                    ]
-                }
-            ]
+'''json
+    "Policies": [
+        {
+            "PolicyName": "root",
+            "PolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Action": [
+                            "logs:CreateLogGroup",
+                            "logs:CreateLogStream",
+                            "logs:PutLogEvents"
+                        ],
+                        "Resource": "arn:aws:logs:*:*:*"
+                    },
+                    {
+                        "Sid": "LenaMigrationPolicy",
+                        "Effect": "Allow",
+                        "Action": [
+                            "ec2:AllocateAddress",
+                            "ec2:CreateNatGateway",
+                            "ec2:CreateRoute",
+                            "ec2:CreateTags",
+                            "ec2:DeleteRoute",
+                            "ec2:DescribeAddresses",
+                            "ec2:DescribeInstanceAttribute",
+                            "ec2:DescribeInstances",
+                            "ec2:DescribeNatGateways",
+                            "ec2:DescribeRouteTables",
+                            "ec2:DisassociateAddress"
+                        ],
+                        "Resource": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
         }
-    }
-]
+    ]
 '''
 
 ## Authors
