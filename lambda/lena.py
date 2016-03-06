@@ -40,9 +40,7 @@ class lena:
         self.result['log'] = []
 
 
-    def prep_work(self, _vpc_id, _nat_instance_id, _new_eip):
-        self.vpc_id = _vpc_id
-        self.info("vpc id is {}".format(self.vpc_id))
+    def prep_work(self, _nat_instance_id, _new_eip):
         self.nat_instance_id = _nat_instance_id
         self.info("nat id is {}".format(self.nat_instance_id))
         self.new_eip = _new_eip
@@ -56,15 +54,7 @@ class lena:
             )['Reservations'][0]['Instances'][0]
 
             self.subnet_id = self.nat_instance['SubnetId']
-
-            if self.vpc_id == self.nat_instance['VpcId']:
-                self.info("Verified instance id {} exists in VPC {}".format(
-                    self.nat_instance_id,
-                    self.vpc_id)
-                )
-
-            else:
-                self.fail("Nat instance not in VPC designated")
+            self.vpc_id = self.nat_instance['VpcId']
 
         except:
             return self.fail("Nat Instance does not exist with this ID")
@@ -243,7 +233,6 @@ def lambda_handler(event, context):
     pprint(event)
     lenamigration = lena()
     lenamigration.prep_work(
-        event['ResourceProperties']['VpcId'],
         event['ResourceProperties']['NatInstanceId'],
         event['ResourceProperties']['NewEIP']
     )
@@ -252,7 +241,9 @@ def lambda_handler(event, context):
     status = 'SUCCESS'
     reason = 'See the details in CloudWatch Log Stream: %s' \
              % context.log_stream_name
-    data = {'MigrationStatus': 'Success'}
+    data = {'MigrationStatus': 'Success: RouteTable(s) Migrated from nat instance: {} to nat gateway: {}'.format(
+        lenamigration.nat_eip_alloc_id, lenamigration.nat_gateway_id
+    )}
 
     send_response(event, context, status, reason, data)
 
