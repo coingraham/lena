@@ -2,11 +2,6 @@
     "AWSTemplateFormatVersion" : "2010-09-09",
     "Description"              : "(LENA) Lambda Executed NAt migration tool.  The MIT License (MIT) Copyright (c) 2016 Coin Graham IV",
     "Parameters"               : {
-        "VpcId" : {
-            "Description" : "What is the VPC that you'd like to migrate from legacy NAT to NAT Gateway?",
-            "Type"        : "AWS::EC2::VPC::Id",
-            "ConstraintDescription" : "must be a valid VPC"
-        },
         "NatInstanceId" : {
             "Description" : "Input the instance id of the legacy NAT we are migrating to NAT Gateway",
             "Type"        : "String",
@@ -104,9 +99,6 @@
             "Properties": {
                 "ServiceToken": {
                     "Fn::GetAtt": [ "LenaMigrateFunction", "Arn" ]
-                },
-                "VpcId": {
-                    "Ref": "VpcId"
                 },
                 "NatInstanceId": {
                     "Ref": "NatInstanceId"
