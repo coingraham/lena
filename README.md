@@ -13,8 +13,7 @@ Here's what the options in the template look like
 ![lena template image](https://github.com/coingraham/lena/blob/master/cloudformationtemplate/templateimage.PNG "LENA template image")
 
 ## What it creates
-The CFT will create a lambda with a lambda assumer role and the following policies attached:
-
+The CFT will create a python based lambda with a lambda assumer role and the following policies attached:
 ```json
     "Policies": [
         {
@@ -56,6 +55,8 @@ The CFT will create a lambda with a lambda assumer role and the following polici
         }
     ]
 ```
+
+Take a look inside the lambda folder for more details on the python there.
 
 ## Authors
 In addition to myself, I worked with @ianwilloughby on various purmutations of the python pieces of the tool.  If you'd like to run a CLI version of the script, you can take a look at his implementation at https://github.com/ianwilloughby/aws_nat_gateway_converter
