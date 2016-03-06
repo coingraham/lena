@@ -15,7 +15,7 @@ Here's what the options in the template look like
 ## What it creates
 The CFT will create a lambda with a lambda assumer role and the following policies attached:
 
-'''json
+```json
     "Policies": [
         {
             "PolicyName": "root",
@@ -55,7 +55,7 @@ The CFT will create a lambda with a lambda assumer role and the following polici
             }
         }
     ]
-'''
+```
 
 ## Authors
 In addition to myself, I worked with @ianwilloughby on various purmutations of the python pieces of the tool.  If you'd like to run a CLI version of the script, you can take a look at his implementation at https://github.com/ianwilloughby/aws_nat_gateway_converter
