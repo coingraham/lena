@@ -100,7 +100,7 @@
             "Type": "AWS::Lambda::Function",
             "Properties": {
                 "Code": {
-                    "S3Bucket": "2ndwatch-lenamigration",
+                    "S3Bucket": "coingraham-lenamigration",
                     "S3Key": "lena.zip"
                 },
                 "Handler": "lena.lambda_handler",
