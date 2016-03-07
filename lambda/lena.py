@@ -32,7 +32,7 @@ class lena:
         self.nat_addresses = None
         self.nat_eip_alloc_id = None
         self.nat_eip_assoc_id = None
-        self.new_eip = None
+        self.is_new_eip = None
         self.nat_gateway_eip = None
         self.nat_gateway = None
         self.nat_gateway_id = None
@@ -40,11 +40,11 @@ class lena:
         self.result['log'] = []
 
 
-    def prep_work(self, _nat_instance_id, _new_eip):
+    def prep_work(self, _nat_instance_id, _is_new_eip):
         self.nat_instance_id = _nat_instance_id
         self.info("nat id is {}".format(self.nat_instance_id))
-        self.new_eip = _new_eip
-        self.info("new eip is {}".format(self.new_eip))
+        self.is_new_eip = _is_new_eip
+        self.info("new eip is {}".format(self.is_new_eip))
         self.ec2_client = boto3.client('ec2')
         self.ec2_resource = boto3.resource('ec2')
 
@@ -85,13 +85,13 @@ class lena:
                          'DestinationCidrBlock':self.routes['DestinationCidrBlock']}
                     )
 
-        self.migrate_nat(self.new_eip)
+        self.migrate_nat(self.is_new_eip)
 
-    def migrate_nat(self, _new_eip):
+    def migrate_nat(self, _is_new_eip):
         """do the nat migration activity"""
-        self.new_eip = _new_eip
-        self.info("Create new EIP is {}".format(self.new_eip))
-        if self.new_eip == "True":
+        self.is_new_eip = _is_new_eip
+        self.info("Create new EIP is {}".format(self.is_new_eip))
+        if self.is_new_eip == "True":
             self.info("Allocating NEW EIP Address")
             nat_new_eip = self.ec2_client.allocate_address(Domain='vpc')
             self.nat_eip_alloc_id = nat_new_eip['AllocationId']
