@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="LENA Migration Tool : ">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>LENA Migration Tool</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/coingraham/lena">View on GitHub</a>
+
+          <h1 id="project_title">LENA Migration Tool</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/coingraham/lena/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/coingraham/lena/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="lena-lambda-executed-nat-migration-tool" class="anchor" href="#lena-lambda-executed-nat-migration-tool" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>(LENA) Lambda Executed NAt Migration Tool</h1>
+
+<p>Automated legacy NAT to NAT gateway migration tool</p>
+
+<h5>
+<a id="ianad---fair-warning--this-is-a-project-for-fun-and-educational-purposes--please-review-before-using-as-there-are-no-warranties" class="anchor" href="#ianad---fair-warning--this-is-a-project-for-fun-and-educational-purposes--please-review-before-using-as-there-are-no-warranties" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>IANAD - Fair warning.  This is a project for fun and educational purposes.  Please review before using as there are no warranties.</h5>
+
+<h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Description</h2>
+
+<p>LENA migration tool is a simple cloudformation template that creates a custom resource lambda function that will take your inputs and use them to create a new NAT gateway (in the same subnet as your NAT instance) and update all your route tables that have the NAT instance id to the new NAT gateway id.  Additionally, if you choose, it can migrate the current NAT instance EIP to the new NAT gateway.</p>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To Use</h2>
+
+<p>Simply clone this repo to acquire both the lambda and CFT.  Then deploy the CFT in a region where you want to migrate the NAT instance to a NAT gateway.  You'll need to make a note of your NAT instance id before you start and decide whether you want to migrate the EIP off of the NAT or not.</p>
+
+<p>Here's what the options in the template look like
+<img src="https://github.com/coingraham/lena/blob/master/cloudformationtemplate/templateimage.PNG" alt="lena template image" title="LENA template image"></p>
+
+<h2>
+<a id="what-it-creates" class="anchor" href="#what-it-creates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What it creates</h2>
+
+<p>The CFT will create a python based lambda with a lambda assumer role and the following policies attached:</p>
+
+<div class="highlight highlight-source-json"><pre>    <span class="pl-s"><span class="pl-pds">"</span>Policies<span class="pl-pds">"</span></span>: [
+        {
+            <span class="pl-s"><span class="pl-pds">"</span>PolicyName<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>root<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>PolicyDocument<span class="pl-pds">"</span></span>: {
+                <span class="pl-s"><span class="pl-pds">"</span>Version<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2012-10-17<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>Statement<span class="pl-pds">"</span></span>: [
+                    {
+                        <span class="pl-s"><span class="pl-pds">"</span>Effect<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Allow<span class="pl-pds">"</span></span>,
+                        <span class="pl-s"><span class="pl-pds">"</span>Action<span class="pl-pds">"</span></span>: [
+                            <span class="pl-s"><span class="pl-pds">"</span>logs:CreateLogGroup<span class="pl-pds">"</span></span>,
+                            <span class="pl-s"><span class="pl-pds">"</span>logs:CreateLogStream<span class="pl-pds">"</span></span>,
+                            <span class="pl-s"><span class="pl-pds">"</span>logs:PutLogEvents<span class="pl-pds">"</span></span>
+                        ],
+                        <span class="pl-s"><span class="pl-pds">"</span>Resource<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>arn:aws:logs:*:*:*<span class="pl-pds">"</span></span>
+                    },
+                    {
+                        <span class="pl-s"><span class="pl-pds">"</span>Sid<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>LenaMigrationPolicy<span class="pl-pds">"</span></span>,
+                        <span class="pl-s"><span class="pl-pds">"</span>Effect<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Allow<span class="pl-pds">"</span></span>,
+                        <span class="pl-s"><span class="pl-pds">"</span>Action<span class="pl-pds">"</span></span>: [
+                            <span class="pl-s"><span class="pl-pds">"</span>ec2:AllocateAddress<span class="pl-pds">"</span></span>,
+                            <span class="pl-s"><span class="pl-pds">"</span>ec2:CreateNatGateway<span class="pl-pds">"</span></span>,
+                            <span class="pl-s"><span class="pl-pds">"</span>ec2:CreateRoute<span class="pl-pds">"</span></span>,
+                            <span class="pl-s"><span class="pl-pds">"</span>ec2:CreateTags<span class="pl-pds">"</span></span>,
+                            <span class="pl-s"><span class="pl-pds">"</span>ec2:DeleteRoute<span class="pl-pds">"</span></span>,
+                            <span class="pl-s"><span class="pl-pds">"</span>ec2:DescribeAddresses<span class="pl-pds">"</span></span>,
+                            <span class="pl-s"><span class="pl-pds">"</span>ec2:DescribeInstanceAttribute<span class="pl-pds">"</span></span>,
+                            <span class="pl-s"><span class="pl-pds">"</span>ec2:DescribeInstances<span class="pl-pds">"</span></span>,
+                            <span class="pl-s"><span class="pl-pds">"</span>ec2:DescribeNatGateways<span class="pl-pds">"</span></span>,
+                            <span class="pl-s"><span class="pl-pds">"</span>ec2:DescribeRouteTables<span class="pl-pds">"</span></span>,
+                            <span class="pl-s"><span class="pl-pds">"</span>ec2:DisassociateAddress<span class="pl-pds">"</span></span>
+                        ],
+                        <span class="pl-s"><span class="pl-pds">"</span>Resource<span class="pl-pds">"</span></span>: [
+                            <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>
+                        ]
+                    }
+                ]
+            }
+        }
+    ]</pre></div>
+
+<p>Take a look inside the lambda folder for more details on the python there.</p>
+
+<h2>
+<a id="once-complete" class="anchor" href="#once-complete" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Once Complete</h2>
+
+<p>Once the tool has completed the CFT will be marked as complete and if you look in the Outputs section you should see a Migration Status of Success.  You can also look at the output of the lambda function in CloudWatch logs.  Once it is completely finished, you can decide to terminate your NAT instance and also delete the Cloudformation Stack to eliminate the lambda.</p>
+
+<h2>
+<a id="authors" class="anchor" href="#authors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors</h2>
+
+<p>In addition to myself, I worked with <a href="https://github.com/ianwilloughby" class="user-mention">@ianwilloughby</a> on various permutations of the python pieces of the tool.  If you'd like to run a CLI version of the script, you can take a look at his implementation at <a href="https://github.com/ianwilloughby/aws_nat_gateway_converter">https://github.com/ianwilloughby/aws_nat_gateway_converter</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">LENA Migration Tool maintained by <a href="https://github.com/coingraham">coingraham</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
