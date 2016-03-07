@@ -12,6 +12,8 @@ Simply clone this repo to acquire both the lambda and CFT.  Then deploy the CFT 
 Here's what the options in the template look like
 ![lena template image](https://github.com/coingraham/lena/blob/master/cloudformationtemplate/templatescreenshot.png "LENA template image")
 
+Note:  If you choose "False" for "Generate new EIP?" the lambda function will disassociate your NAT EIP before building your NAT Gateway.  This may need to be considered if you want to migrate with zero downtime.
+
 ## What it creates
 The CFT will create a python based lambda with a lambda assumer role and the following policies attached:
 ```json
