@@ -18,6 +18,23 @@
             "ConstraintDescription" : "must select True or False."
         }
     },
+    "Metadata": {
+        "AWS::CloudFormation::Interface": {
+            "ParameterGroups": [
+                {
+                    "Label": { "default": "Basic Options" },
+                    "Parameters": [
+                        "NatInstanceId",
+                        "NewEIP"
+                    ]
+                }
+            ],
+            "ParameterLabels": {
+                "NatInstanceId": { "default": "Instance ID of the NAT?" },
+                "NewEIP": { "default": "Generate a new EIP?" }
+            }
+        }
+    },
     "Resources"                : {
         "LambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
