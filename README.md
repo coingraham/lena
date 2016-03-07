@@ -10,7 +10,7 @@ LENA migration tool is a simple cloudformation template that creates a custom re
 Simply clone this repo to acquire both the lambda and CFT.  Then deploy the CFT in a region where you want to migrate the NAT instance to a NAT gateway.  You'll need to make a note of your NAT instance id before you start and decide whether you want to migrate the EIP off of the NAT or not.
 
 Here's what the options in the template look like
-![lena template image](https://github.com/coingraham/lena/blob/master/cloudformationtemplate/templateimage.PNG "LENA template image")
+![lena template image](https://github.com/coingraham/lena/blob/master/cloudformationtemplate/templatescreenshot.png "LENA template image")
 
 ## What it creates
 The CFT will create a python based lambda with a lambda assumer role and the following policies attached:
