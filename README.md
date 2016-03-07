@@ -59,4 +59,4 @@ The CFT will create a python based lambda with a lambda assumer role and the fol
 Take a look inside the lambda folder for more details on the python there.
 
 ## Authors
-In addition to myself, I worked with @ianwilloughby on various purmutations of the python pieces of the tool.  If you'd like to run a CLI version of the script, you can take a look at his implementation at https://github.com/ianwilloughby/aws_nat_gateway_converter
+In addition to myself, I worked with @ianwilloughby on various permutations of the python pieces of the tool.  If you'd like to run a CLI version of the script, you can take a look at his implementation at https://github.com/ianwilloughby/aws_nat_gateway_converter
