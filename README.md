@@ -58,5 +58,8 @@ The CFT will create a python based lambda with a lambda assumer role and the fol
 
 Take a look inside the lambda folder for more details on the python there.
 
+## Once Complete
+Once the tool has completed the CFT will be marked as complete and if you look in the Outputs section you should see a Migration Status of Success.  You can also look at the output of the lambda function in CloudWatch logs.  Once it is completely finished, you can decide to terminate your NAT instance and also delete the Cloudformation Stack to eliminate the lambda.
+
 ## Authors
 In addition to myself, I worked with @ianwilloughby on various permutations of the python pieces of the tool.  If you'd like to run a CLI version of the script, you can take a look at his implementation at https://github.com/ianwilloughby/aws_nat_gateway_converter
